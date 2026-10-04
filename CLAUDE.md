@@ -22,7 +22,7 @@ cargo test
 ```
 
 - `cargo clippy --all-targets`: revisa también los tests. El bucle automático exige que no haya ningún warning.
-- `cargo test <parte_del_nombre>`: ejecuta solo los tests cuyo nombre la contiene. Por ejemplo, `cargo test dominio::edificio::` ejecuta solo los tests de ese módulo.
+- `cargo test <parte_del_nombre>`: ejecuta solo los tests cuyo nombre contiene la parte indicada.
 
 
 ## Arquitectura
@@ -77,7 +77,7 @@ Ignorar totalmente la carpeta `zz - trozos de codigo descartados - guardados por
 
 Dedicar atención a la nomenclatura. Poner nombres descriptivos, aunque resulten largos. El código se ha de poder leer con facilidad y quedando claro qué representa cada variable, función, estructura,...
 
-Todo va en español: identificadores, nombres de tests, comentarios y mensajes. En los identificadores se escribe sin tildes ni eñes (`anio`, `Miercoles`). Los términos del dominio son los del glosario; para usar uno que no esté, hay que acordarlo antes.
+Identificadores, nombres de tests, comentarios y mensajes van en español. Los identificadores y nombres de tests se escriben sin tildes ni eñes (`anio`, `Miercoles`).
 
 
 

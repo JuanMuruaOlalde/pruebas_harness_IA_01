@@ -6,10 +6,10 @@ disable-model-invocation: true
 ## Estado de `trabajo/` al invocar la skill
 
 Contenido de la carpeta `trabajo/1_listo_para_implementar/`:
-!`ls "${CLAUDE_PROJECT_DIR}/trabajo/1_listo_para_implementar/" | grep . || echo "(vacía)" 2>/dev/null`
+!`ls "${CLAUDE_PROJECT_DIR}/trabajo/1_listo_para_implementar/" 2>/dev/null | grep . || echo "(vacía)"`
 
 Contenido de la carpeta `trabajo/2_en_curso/`:
-!`ls "${CLAUDE_PROJECT_DIR}/trabajo/2_en_curso/" | grep . || echo "(vacía)" 2>/dev/null`
+!`ls "${CLAUDE_PROJECT_DIR}/trabajo/2_en_curso/" 2>/dev/null | grep . || echo "(vacía)"`
 
 ## Instrucciones
 
@@ -21,25 +21,27 @@ No hagas tú el trabajo de los subagentes ni corrijas sus problemas.
 
 - Si `trabajo/1_listo_para_implementar/` está vacía, avisa y termina.
 
-- Si `trabajo/2_en_curso/` no está vacía, no lances ningún subagente: resume lo que contiene (sobre todo si hay un `PROBLEMA_*.md`), avisa y termina.
+- Si `trabajo/2_en_curso/` tiene contenido, no lances ningún subagente: resume lo que contiene (sobre todo si hay un `PROBLEMA_*.md`), avisa y termina.
 
 ### Una vuelta del bucle
 
 1. Usa el subagente `evaluar_y_preparar_trabajo`.
-2. Muestra al usuario la funcionalidad escogida y el contenido de `trabajo/2_en_curso/lista_de_tests.md`, y pregúntale si quiere continuar. Si no lo confirma, detente y recuérdale que la funcionalidad sigue en `trabajo/2_en_curso/` con su lista de tests, para que la ajuste o la devuelva a `trabajo/1_listo_para_implementar/`.
+2. Muestra al usuario la funcionalidad escogida y el contenido de los archivos `trabajo/2_en_curso/lista_de_tests.md` y `trabajo/2_en_curso/lista_de_requisitos_y_casos_de_uso.md`. Pregúntale si quiere continuar. Si no lo confirma, detente y recuérdale que la funcionalidad sigue en `trabajo/2_en_curso/`, para que la ajuste o la devuelva a `trabajo/1_listo_para_implementar/`.
 3. Usa el subagente `programar_codigo`.
 4. Usa el subagente `revisar_codigo_y_refactorizar`. Pásale el resumen de lo que implementó `programar_codigo`.
 5. Ejecuta `cargo fmt`.
 6. Usa el subagente `validar_codigo_y_commitearlo`. Pásale el resumen de los pasos 3 y 4.
 
-Después de cada paso, muestra al usuario lo ocurrido;  si en la carpeta `trabajo/2_en_curso/` aparece algún archivo `PROBLEMA_*.md` o el informe del subagente ha indicado un problema, detente.
+Después de cada paso, muestra al usuario lo ocurrido; si en la carpeta `trabajo/2_en_curso/` aparece algún archivo `PROBLEMA_*.md` o el informe del subagente ha indicado un problema, detente.
 
 Si la validación del paso 6 termina bien y quedan archivos en `trabajo/1_listo_para_implementar/`, empieza otra vuelta desde el paso 1.
 
-### Al terminar
+### Al terminar el bucle
 
-Tanto si vacías la cola como si te detienes por algún problema, escribe un archivo `trabajo/3_historico/realizado_AAAAMMDDTHHMMSS.md` (donde AAAAMMDDTHHMMSS es un timestamp en formato ISO con el año, mes, dia, hora, minuto y segundo); en ese archivo detalla, por cada vuelta completada: 
+Tanto si vacías la cola como si te detienes por algún problema o porque el usuario no confirme, escribe un archivo `trabajo/3_historico/realizado_AAAAMMDDTHHMMSS.md` (donde AAAAMMDDTHHMMSS es un timestamp en formato ISO con el año, mes, dia, hora, minuto y segundo); en ese archivo detalla el trabajo realizado, por cada vuelta: 
 - qué se implementó, 
 - las signaturas de los tests añadidos, 
 - el hash y el mensaje del commit.
 En caso de haber tenido algún problema, incluye descripción del mismo al final del archivo.
+
+Después de escribir el archivo, commitea ese archivo en el sistema de gestión de versiones.

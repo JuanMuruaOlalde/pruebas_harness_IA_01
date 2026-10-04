@@ -5,19 +5,19 @@
       "Bash(cargo build *)",
       "Bash(cargo fmt *)",
       "Bash(cargo clippy *)",
+      "Bash(mkdir *)",
       "Bash(mv trabajo/1_listo_para_implementar/* trabajo/2_en_curso/*)",
       "Bash(mv trabajo/2_en_curso/* trabajo/3_historico/*)",
-      "Bash(mkdir trabajo/3_historico/*)",
       "Bash(git add *)",
-      "Edit(/trabajo/2_en_curso/lista_de_tests.md)"
-],
+      "Edit(/trabajo/2_en_curso/lista_de_tests.md)",
+      "Edit(/src/**)"
+    ],
     "ask": [
       "Bash(git commit *)"
     ],
     "deny": [
       "Bash(git push *)",
-      "Bash(*documentacion/*)",
-      "Bash(*trabajo/directrices*)",
+      "Read(/zz - trozos de codigo descartados - guardados por si acaso/**)",
       "Edit(/documentacion/**)",
       "Edit(/trabajo/directrices/**)"
     ]

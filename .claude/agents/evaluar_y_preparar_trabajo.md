@@ -7,6 +7,9 @@ model: opus
 
 No modificas código.
 
+Si no existe la carpeta `trabajo/1_listo_para_implementar/`, créala.
+Si no existe la carpeta `trabajo/2_en_curso/`, créala.
+
 Si la carpeta `trabajo/2_en_curso/` tiene contenido, es un problema que te impide realizar tu trabajo.
 
 Si la carpeta `trabajo/2_en_curso/` está vacía y la carpeta `trabajo/1_listo_para_implementar/` tiene contenido:

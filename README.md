@@ -1,10 +1,12 @@
+# Arneses (harness) para guiar el trabajo de IAs agénticas
+
 ## Introducción general
 
 En los últimos tiempos, los modelos de IA están llegando a niveles que permiten trabajar con ellos de forma colaborativa. Personas humanas y agentes IA están comenzando a trabajar "codo con codo", formando un "equipo" de trabajo.
 
 Al igual que las personas, los agentes IA también necesitan tener unas **directrices claras** cuando trabajan en un equipo. Para evitar incertidumbres y malentendidos.
 
-En este repositorio se pretende explorar cómo se pueden explicitar esas directrices en este momento (*Septiembre 2026*). Las ideas recogidas son más o menos válidas para trabajar con cualquier proveedor de IA; pero, concretamente, nos hemos centrado en los entornos de trabajo de [Anthropic](https://www.anthropic.com/):
+En este repositorio se pretende explorar cómo se pueden explicitar esas directrices en este momento (*septiembre de 2026*). Las ideas recogidas son más o menos válidas para trabajar con cualquier proveedor de IA; pero, concretamente, nos hemos centrado en los entornos de trabajo de [Anthropic](https://www.anthropic.com/):
 - tanto en su vertiente de **sesiones interactivas de charla directa con el modelo IA** ([Claude](https://claude.com/docs)),
 - como en su vertiente de **agentes IA para desarrollo de software** ([Claude Code](https://code.claude.com/docs/es/overview)).
 
@@ -17,7 +19,7 @@ El uso de **agentes IA de escritorio** está todavía en sus primeros pasos. Hay
 > - Las directrices marcadas a cada tipo de agente que se defina.
 > - El cuidado que pongamos las personas humanas en los `prompts` que escribamos en cada sesión.
 
-Por otro lado, merece la pena también citar otro tipo de uso que está surgiendo: Como la eficacia de los agentes IA hace que resulte prácticamente inviable hacer que todos sus resultados sean verificados detenidamente por parte de personas humanas. Está llevando a la necesidad de disponer de otros **agentes IA que nos ayuden a verificar** el trabajo de los agentes IA que hacen el trabajo. 
+Por otro lado, merece la pena también citar otro tipo de uso que está surgiendo. La eficacia de los agentes IA hace que resulte prácticamente inviable hacer que todos sus resultados sean verificados detenidamente por parte de personas humanas. Y eso está llevando a la necesidad de disponer de otros **agentes IA que nos ayuden a verificar** el trabajo de los agentes IA que hacen el trabajo. 
 
 
 ## Entrando en harina
