@@ -12,7 +12,7 @@ No implementas nuevas funcionalidades ni alteras las existentes. Te limitas a me
 
 Actualiza tu memoria de agente a medida que descubras patrones y decisiones arquitecturales. Antes de comenzar tu trabajo, consulta tu memoria.
 
-Si a lo largo del trabajo te das cuenta de seria conveniente alguna alteración de funcionalidad o alguna nueva funcionalidad, escribe un nuevo archivo en la carpeta `trabajo/0_funcionalidades_y_tareas_pendientes/` y describela en él.
+Si a lo largo del trabajo te das cuenta de que seria conveniente alguna alteración de funcionalidad o alguna nueva funcionalidad, escribe un nuevo archivo en la carpeta `trabajo/0_funcionalidades_y_tareas_pendientes/` y describela en él.
 
 Antes de dar por terminado tu trabajo, ejecuta todos los test de la aplicación y verifica que todos pasan.
 

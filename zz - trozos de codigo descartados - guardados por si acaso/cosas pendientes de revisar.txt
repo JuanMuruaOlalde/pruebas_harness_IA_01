@@ -1,0 +1,75 @@
+cat -n .claude/settings.json && python3 -m json.tool .claude/settings.json >/dev/null && echo JSON_OK
+
+ls -la /home/juan/.claude/projects/-home-juan-Documentos-01-PROYECTOS-github-pruebas-harness-IA-01/memory/ && cat /home/juan/.claude/projects/-home-juan-Documentos-01-PROYECTOS-github-pruebas-harness-IA-01/memory/MEMORY.md 2>/dev/null
+
+o más grave es que el bucle automático probablemente no llegaría a arrancar, y si arrancase fallaría en el primer mv. El código compila, y cargo fmt --check y cargo clippy --all-targets salen limpios. Todo lo demás está en la configuración, los textos y el glosario. No he cambiado nada.
+
+1. Fallos que pueden romper el bucle
+Faltan carpetas. Git no guarda carpetas vacías, y el commit 68f62fd solo añadió .gitkeep a 0_… y 3_…. Así que trabajo/1_listo_para_implementar/ y trabajo/2_en_curso/ no existen, y en el diff has quitado de evaluar_y_preparar_trabajo la orden de crearlas. Qué pasaría:
+
+El mv de evaluar_y_preparar_trabajo.md:16 falla. Peor aún: sin / final, renombraría el archivo a un fichero llamado trabajo/2_en_curso.
+validar_codigo_y_commitearlo.md:19 mueve a 3_historico/AAAAMMDDTHHMMSS/, una carpeta que tampoco existe, y mkdir no está en allow.
+Las reglas mv de settings.json:8-9 solo coinciden con rutas relativas. Si el agente usa la ruta absoluta, te pedirá permiso.
+Propuesta: un .gitkeep en 1_listo_para_implementar/, más Bash(mkdir -p trabajo/*) o recuperar el "créala".
+trabajo/analisis/ no da problemas, porque Write crea las carpetas intermedias.
+La comprobación inicial de la skill (SKILL.md:9 y :12) tiene dos fallos:
+
+El 2>/dev/null se aplica al echo, no al ls, así que el error de ls sale igualmente. Lo he comprobado.
+En el Bash de esta sesión, CLAUDE_PROJECT_DIR está vacía. Si también lo está al expandir la skill, el ls mira /trabajo/…, sale siempre "(vacía)" y la skill termina diciendo que no hay nada que hacer.
+Propuesta: !`ls trabajo/1_listo_para_implementar/ 2>/dev/null | grep . || echo "(vacía)"`
+Subagentes en segundo plano. Un subagente en segundo plano no puede mostrarte una petición de permiso, así que el ask de git commit (y cualquier mv o mkdir fuera de allow) acabaría denegado. Conviene que la skill diga expresamente que cada subagente se lanza en primer plano.
+
+El validador mueve antes de hacer el commit. Si rechazas el commit, 2_en_curso/ ya está vacía y el código queda sin commitear, así que la siguiente ejecución empezaría otra funcionalidad encima. Conviene decirle explícitamente que, si el commit no se hace, cree el PROBLEMA_*.md.
+
+Falta un caso en SKILL.md:41. Al cambiar "por cualquier otra causa" por "por algún problema", queda fuera el caso de que no confirmes en el paso 2. Ese caso no es un problema, pero el bucle también se detiene y no se escribiría el realizado_*.md.
+
+2. Incongruencias entre reglas y textos
+Directrices: CLAUDE.md:67 dice "Sí leer su contenido", pero la regla Bash(*trabajo/directrices*) bloquea cat, ls y grep por Bash. Me ha pasado al revisar: he tenido que usar Read. El validador debería saber que tiene que usar Read o Grep.
+Documentación:
+La excepción de CLAUDE.md:69 ("excepto para hacer un commit") no se puede usar con git add documentacion/…, porque lo deniega Bash(*documentacion/*).
+A la vez, "No leer" no lo impone ninguna regla: falta un Read(/documentacion/**) en deny, y la regla de Bash se esquiva con cd documentacion && cat ….
+Nombre de archivo repetido: los dos agentes de análisis escriben el mismo trabajo/analisis/PROBLEMA_al_analizar.md.
+Contradicción en el README: en README.md:8 dices que también tratas las sesiones de chat con Claude, y en README.md:11, "nos centramos solo en Claude Code".
+Nombre del informe de análisis: vista_general_del_codigo-AAAAMMDDTHHMMSS-.md tiene un guion sobrante antes de .md y usa guiones, mientras que el resto usa _ (realizado_AAAA…).
+Otros detalles:
+CLAUDE.md:3 está en inglés, aunque "todo va en español".
+El "Mapa de la arquitectura actual" (CLAUDE.md:35) está vacío.
+El paquete se llama pruebas_harness_01 y el repositorio pruebas_harness_IA_01.
+.claude/workflows/ no se menciona en ninguna parte.
+3. Glosario (de él salen los identificadores)
+"velocidad de desplazamiento" se mide en segundos por planta, así que es un tiempo: cuanta más "velocidad", más lento va. Saldría un velocidad_de_desplazamiento que confunde. Propuesta: "tiempo de desplazamiento entre plantas".
+Redacción dispar: el tiempo de arranque se suma "a un ascensor" y el de parada "a la velocidad de un ascensor". Conviene redactarlos igual, por ejemplo "segundos que se suman al tiempo del tramo…".
+"anteúltima" → "penúltima".
+Recorridos de una sola planta: ¿se suman los dos tiempos, el de arranque y el de parada? Conviene aclararlo.
+Términos sin definir: las definiciones usan "recorrido", "sentido" y "planta principal", que no están en el glosario. Como CLAUDE.md obliga a acordar los términos nuevos, mejor añadirlos antes de la primera funcionalidad.
+4. Erratas
+README:
+L5: ". Para evitar" → ", para evitar".
+L7: "Septiembre 2026" → "septiembre de 2026".
+L20: la frase queda partida (": Como la eficacia… humanas. Está llevando…"). Propuesta: "…que está surgiendo: como la eficacia de los agentes IA hace prácticamente inviable que las personas verifiquen todos sus resultados, surge la necesidad de…".
+Le falta un título #.
+Agentes y skill:
+"algúnos" → "algunos" (buscar_costuras…:17).
+"En el archivo …. Las signaturas…" → "En el archivo …, las signaturas…" (programar_codigo.md:17).
+Doble espacio en "ocurrido; si" (SKILL.md:35).
+Tildes que faltan: sería, descríbela/descríbelo, podría, extraería, vacía, habías, día y metodologías.
+Plural: "los test" → "los tests" en programar, revisar, validar y buscar_costuras.
+Menores:
+"más de 100 costuras" hace que pare en 101; antes ponía "100", que se entendía mejor.
+analizar…:28 no lleva punto final ni pide la lista de archivos, como los demás agentes.
+En settings.json:12, el ], está mal sangrado.
+Hay espacios al final de algunas líneas.
+5. Posibles mejoras
+programar_codigo:
+Paso 3: "si el test pasa, es un problema" detendrá el bucle a menudo, porque es normal que un caso límite ya esté cubierto. Mejor que lo marque y lo anote en las observaciones.
+Añadir "no modifiques ni borres tests existentes para que pasen". Es un atajo típico de los agentes.
+100 reintentos son muchos tokens; con 5–10 bastaría.
+revisar_codigo_y_refactorizar: que pase cargo clippy --all-targets, porque el validador lo exige, y que se centre en el git diff de la vuelta.
+validar_codigo_y_commitearlo:
+Que compruebe que no queda ningún - [ ] en lista_de_tests.md.
+Que tenga un formato fijo para el mensaje del commit.
+realizado_*.md: se escribe después del último commit, así que queda sin commitear y lo arrastra el commit de la siguiente vuelta. Conviene decidir qué hacer con él.
+buscar_costuras_y_extraer_interfaces: le falta una convención de nombres para sus informes. Puede escribir hasta 100.
+Cuando empiece el código: separar src/lib.rs de un main.rs mínimo y crear módulos dominio/, puertos/ y adaptadores/. Así encaja la arquitectura hexagonal y tiene sentido el ejemplo cargo test dominio::edificio::.
+README: añadir un apartado "Cómo usarlo": dejar archivos en 1_listo_para_implementar/ y lanzar /programacion_en_bucle_automatico.
+Dime cuáles quieres abordar y te preparo el texto exacto para aplicarlo tú, o aplico directamente las erratas del README y de los agentes.
