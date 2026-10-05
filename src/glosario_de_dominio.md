@@ -28,3 +28,21 @@ Nomenclatura a emplear. Se irá ampliando a medida que surjan nuevos conceptos/t
 - **planta actual**: última planta que ha alcanzado un ascensor en un instante dado.
 - **ascensor parado**: ascensor que no está realizando ningún desplazamiento y acepta órdenes.
 - **ascensor desplazándose** (u **ocupado**): ascensor en pleno desplazamiento, desde el arranque hasta el final de la parada; rechaza nuevas órdenes.
+
+## Para el control de tráfico
+
+- **control de tráfico**: decide qué ascensor atiende cada llamada, registra los movimientos y reposiciona los ascensores libres.
+- **botón de llamada**: botón de una planta con el que una persona pide un ascensor; uno por planta.
+- **llamada**: pulsación de un botón de llamada. **Llamada pendiente**: la que espera a que quede libre algún ascensor.
+- **botonera**: botones de dentro de un ascensor, uno por planta, para elegir la planta de destino.
+- **ascensor libre**: ascensor parado.
+- **ascensor en reposo**: ascensor libre desde hace al menos el tiempo de reposo.
+- **tiempo de reposo**: tiempo que un ascensor ha de estar libre antes de que se le pueda reposicionar.
+- **movimiento**: registro de una orden dada a un ascensor: fecha y hora, ascensor, plantas de origen y de destino, y motivo.
+- **motivo** (de un movimiento): llamada, botonera o reposicionamiento.
+- **histórico de movimientos**: registro permanente de todos los movimientos.
+- **fecha y hora**: fecha y hora local de calendario; en la simulación, la de inicio más el instante de simulación.
+- **franja horaria**: cada una de las 24 horas del día.
+- **demanda** (de una planta): número de llamadas hechas en ella el mismo día de la semana y en la misma franja horaria, en las últimas 4 semanas.
+- **planta de espera**: planta a la que se manda un ascensor en reposo para esperar llamadas. **Plantas de espera preferentes**: las de más demanda.
+- **reposicionamiento**: movimiento de un ascensor en reposo hacia una planta de espera.
