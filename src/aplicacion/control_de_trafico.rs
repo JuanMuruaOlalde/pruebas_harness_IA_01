@@ -2,6 +2,7 @@
 //! historico y reposiciona los ascensores libres segun la demanda historica.
 
 use std::collections::{HashMap, VecDeque};
+use std::fmt;
 use std::time::Duration;
 
 use crate::dominio::ascensor::{EstadoDeAscensor, IdentificadorDeAscensor};
@@ -54,6 +55,18 @@ pub enum ErrorDeControlDeTrafico {
     /// El historico ha fallado. Las ordenes ya dadas a los ascensores no se deshacen.
     Historico(ErrorDeHistoricoDeMovimientos),
 }
+
+impl fmt::Display for ErrorDeControlDeTrafico {
+    fn fmt(&self, formato: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::Simulacion(error) => fmt::Display::fmt(error, formato),
+            Self::Historico(error) => fmt::Display::fmt(error, formato),
+        }
+    }
+}
+
+/// `source()` queda por defecto (`None`): el mensaje ya incluye el del error interno.
+impl std::error::Error for ErrorDeControlDeTrafico {}
 
 impl From<ErrorDeSimulacion> for ErrorDeControlDeTrafico {
     fn from(error: ErrorDeSimulacion) -> Self {
@@ -1042,5 +1055,29 @@ mod tests {
         avanzar(&mut control, 1);
         assert_eq!(posicion(&control, ASCENSOR_1), desplazandose_en(0, 5));
         assert_eq!(posicion(&control, ASCENSOR_2), parado_en(0));
+    }
+
+    // Mensajes de error
+
+    #[test]
+    fn los_errores_del_control_de_trafico_se_muestran_con_el_mensaje_del_error_que_contienen() {
+        let de_simulacion = ErrorDeControlDeTrafico::Simulacion(ErrorDeSimulacion::AscensorOcupado);
+        assert_eq!(
+            de_simulacion.to_string(),
+            ErrorDeSimulacion::AscensorOcupado.to_string()
+        );
+        let error_del_historico =
+            ErrorDeHistoricoDeMovimientos::LineaIlegible { numero_de_linea: 3 };
+        let del_historico = ErrorDeControlDeTrafico::Historico(error_del_historico.clone());
+        assert_eq!(del_historico.to_string(), error_del_historico.to_string());
+    }
+
+    #[test]
+    fn los_errores_del_dominio_y_del_control_de_trafico_implementan_std_error_error() {
+        fn es_un_error<E: std::error::Error>() {}
+        es_un_error::<crate::dominio::errores::ErrorDeConfiguracion>();
+        es_un_error::<ErrorDeSimulacion>();
+        es_un_error::<ErrorDeHistoricoDeMovimientos>();
+        es_un_error::<ErrorDeControlDeTrafico>();
     }
 }

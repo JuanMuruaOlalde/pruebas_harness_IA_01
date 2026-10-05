@@ -66,6 +66,30 @@ impl FechaYHora {
         self.0.hour()
     }
 
+    pub fn anio(&self) -> i32 {
+        self.0.year()
+    }
+
+    /// Mes del anio, de 1 a 12.
+    pub fn mes(&self) -> u32 {
+        self.0.month()
+    }
+
+    /// Dia del mes, de 1 a 31.
+    pub fn dia(&self) -> u32 {
+        self.0.day()
+    }
+
+    /// Minuto de la hora, de 0 a 59.
+    pub fn minuto(&self) -> u32 {
+        self.0.minute()
+    }
+
+    /// Segundo del minuto, de 0 a 59, sin la fraccion de segundo.
+    pub fn segundo(&self) -> u32 {
+        self.0.second()
+    }
+
     /// Avanza esta fecha y hora la duracion indicada. Si se saliera del calendario, no cambia.
     pub fn sumar(&self, duracion: Duration) -> FechaYHora {
         let suma = TimeDelta::from_std(duracion)
@@ -201,5 +225,22 @@ mod tests {
                 "{texto:?}"
             );
         }
+    }
+
+    #[test]
+    fn los_componentes_de_una_fecha_y_hora_son_los_indicados_al_crearla() {
+        let fecha = fecha_y_hora(2026, 10, 5, 8, 7, 9);
+        assert_eq!(fecha.anio(), 2026);
+        assert_eq!(fecha.mes(), 10);
+        assert_eq!(fecha.dia(), 5);
+        assert_eq!(fecha.hora_del_dia(), 8);
+        assert_eq!(fecha.minuto(), 7);
+        assert_eq!(fecha.segundo(), 9);
+    }
+
+    #[test]
+    fn el_segundo_de_una_fecha_y_hora_no_incluye_la_fraccion_de_segundo() {
+        let fecha = fecha_y_hora(2026, 10, 5, 8, 0, 10).sumar(Duration::from_millis(500));
+        assert_eq!(fecha.segundo(), 10);
     }
 }

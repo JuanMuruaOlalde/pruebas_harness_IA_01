@@ -46,3 +46,12 @@ Nomenclatura a emplear. Se irá ampliando a medida que surjan nuevos conceptos/t
 - **demanda** (de una planta): número de llamadas hechas en ella el mismo día de la semana y en la misma franja horaria, en las últimas 4 semanas.
 - **planta de espera**: planta a la que se manda un ascensor en reposo para esperar llamadas. **Plantas de espera preferentes**: las de más demanda.
 - **reposicionamiento**: movimiento de un ascensor en reposo hacia una planta de espera.
+
+## Para la interfaz de usuario
+
+- **hueco** (de un ascensor): en la interfaz, la columna que representa el recorrido vertical de un ascensor, con una celda por planta.
+- **marcha** (de un ascensor): parado, subiendo, bajando o llegando. Está **llegando** cuando ya está en su planta de destino, pero aún no ha terminado la parada.
+- **botón encendido**:
+  - un botón de llamada cuya pulsación no tendría efecto, porque ya hay una llamada en curso para la planta (pendiente, o con un ascensor desplazándose hacia ella);
+  - en la botonera, el botón de la planta de destino del ascensor mientras se desplaza.
+- **mensaje para el usuario**: el resultado de la última acción del usuario, o el último error.
