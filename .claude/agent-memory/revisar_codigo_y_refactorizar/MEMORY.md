@@ -1,0 +1,3 @@
+- [Decisiones de arquitectura del dominio](decisiones_arquitectura_dominio.md) — agregado SimuladorDeEdificio, Ascensor pub(crate), control en aplicacion, chrono y eframe aislados, MVP
+- [Flujo del paso de refactorizar](flujo_paso_refactorizar.md) — lista_de_tests.md intocable; API publica y huecos de tests a pendientes; mutaciones y cargo clean -p
+- [Ubicacion de la memoria del agente](ubicacion_de_la_memoria_del_agente.md) — depende del cwd; leer tambien la de la raiz si la indicada esta vacia
