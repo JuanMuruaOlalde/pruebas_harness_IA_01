@@ -1,0 +1,3 @@
+- [Como analizar este repositorio](como_analizar_este_repositorio.md) — carpetas vedadas, find denegado, mkdir de trabajo/analisis, no cargo run, revisar pendientes
+- [Decisiones deliberadas que no son defectos](decisiones_deliberadas_que_no_son_defectos.md) — chrono en dominio, egui sin tests, control en aplicacion; fuente: memoria del revisor
+- [Historial de analisis](historial_de_analisis.md) — informe del 2026-10-06 (commit 60344c8) y hallazgos que vigilar en el siguiente
