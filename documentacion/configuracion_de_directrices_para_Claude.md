@@ -160,9 +160,12 @@ Las directrices que rigen el comportamiento de un agente se escriben igual que c
 
 Con algunas peculiaridades:
 - Cada agente se define dentro de su propio archivo .md
-- Ese archivo .md llevar una cabecera con cierta información estructurada (`frontmatter YAML`), información tal como: **nombre**, **descripción**, **herramientas** que puede utilizar, **modelo** de IA que usará como motor de inferencia, etc.
+- Ese archivo .md llevar una cabecera con cierta información estructurada (`frontmatter YAML`), información tal como: **name**, **description**, **tools** que puede utilizar, **model** de IA que usará como motor de inferencia, etc.
 - El archivo ha de estar guardado en una cierta carpeta dentro del repositorio: `~/.claude/agents/`
 
+Es especialmente importante el campo `description`. Ya que otros agentes utilizan esa descripción para decidir (inferir) cuándo puede serles útil invocar a este agente.
+
+El nombre del archivo .md será el nombre del agente. Para lanzarlo manualmente, basta con escribir *@nombredelagente* en cualquier momento dentro de una sesión.
 
 Una muestra:
 ```
@@ -191,3 +194,26 @@ No modifiques el código. Solo sugiere mejoras.
 >
 > aviso: Prestar especial atención a la redacción de los campos `name` y `description`. Lo escrito en ellos mediatiza cuándo y en qué circunstancias Claude puede decidir(inferir) que le conviene usar el agente.
  
+
+## Directrices reutilizables: skills
+
+Las habilidades (`skills`) son aquellas directrices útiles para un trabajo concreto y que se suelen utilizar desde distintos entornos en distintos momentos.
+
+Las habilidades se escriben igual que cualquier otra directriz o prompt: en lenguaje natural.
+
+Con algunas peculiaridades:
+- Cada habilidad se define dentro de su propia CARPETA, en un archivo `SKILL.md`.
+- Ese archivo .md llevar una cabecera con cierta información estructurada (`frontmatter YAML`), información tal como: **description**, etc.
+- La carpeta ha de ser subcarpeta de una cierta carpeta dentro del repositorio: `~/.claude/skills/`
+
+El nombre de la carpeta será el nombre de la habilidad. Para invocarla manualmente, basta con escribir */nombredelahabilidad*; dentro de cualquier sesión, bien nosotros mismos o bien algún agente que decida (infiera) que le puede ser útil.
+
+El hecho de que una habilidad se defina en una carpeta es porque, para realizar ciertas tareas descritas en su definición (archivo `SKILL.md`), puede incluir más elementos:
+- subcarpeta `scripts`: conteniendo código ejecutable que la IA puede utilizar.
+- subcarpeta `assets`:  conteniendo recursos, tales como plantillas, que la IA puede utilizar.
+- subcarpeta `references`: conteniendo documentación relevante para enriquecer el contexto de la IA. 
+
+Una muestra:
+```
+```
+
